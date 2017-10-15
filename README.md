@@ -1,5 +1,5 @@
 # vmm.sh
-KVM虚拟机镜像部署与管理;
+KVM虚拟机镜像部署与管理
 
 执行方式一：
 bash vmm.sh n
