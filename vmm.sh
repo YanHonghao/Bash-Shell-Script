@@ -12,8 +12,8 @@ then
 		echo "Error:> Cannot connect to 47.94.208.160.";
 		exit;
 	fi;
-	wget -O /var/lib/libvirt/images/CentOS7.4-Origin.qcow2 ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin.qcow2;
-	wget -O /etc/libvirt/qemu/CentOS7.4-Origin ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin;
+	wget --no-passive-ftp -O /var/lib/libvirt/images/CentOS7.4-Origin.qcow2 ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin.qcow2;
+	wget --no-passive-ftp -O /etc/libvirt/qemu/CentOS7.4-Origin ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin;
 	cp /etc/libvirt/qemu/CentOS7.4-Origin /etc/libvirt/qemu/CentOS7.4-Origin.xml
 	systemctl restart libvirtd;
 	systemctl enable libvirtd;
