@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-if test ! -e /var/lib/libvirt/images/CentOS7.4-Origin.qcow2
+if test ! -e /var/lib/libvirt/images/CentOS7.4-Base.qcow2
 then
 	rpm -q wget qemu-kvm qemu-img libvirt libvirt-client virt-manager > /dev/null;
 	if [ $? -ne 0 ]
@@ -12,9 +12,9 @@ then
 		echo "Error:> Cannot connect to 47.94.208.160.";
 		exit;
 	fi;
-	wget --no-passive-ftp -O /var/lib/libvirt/images/CentOS7.4-Origin.qcow2 ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin.qcow2;
-	wget --no-passive-ftp -O /etc/libvirt/qemu/CentOS7.4-Origin ftp://47.94.208.160/CentOS7.4/CentOS7.4-Origin;
-	cp /etc/libvirt/qemu/CentOS7.4-Origin /etc/libvirt/qemu/CentOS7.4-Origin.xml
+	wget --no-passive-ftp -O /var/lib/libvirt/images/CentOS7.4-Base.qcow2 ftp://47.94.208.160/CentOS7.4/CentOS7.4-Base.qcow2;
+	wget --no-passive-ftp -O /etc/libvirt/qemu/CentOS7.4-Base ftp://47.94.208.160/CentOS7.4/CentOS7.4-Base;
+	cp /etc/libvirt/qemu/CentOS7.4-Base /etc/libvirt/qemu/CentOS7.4-Base.xml
 	systemctl restart libvirtd;
 	systemctl enable libvirtd;
 fi;
@@ -40,8 +40,8 @@ then
 			then
 			virsh undefine CentOS7.4-Auto-${x} --remove-all-storage;
 			fi;
-			qemu-img create -b /var/lib/libvirt/images/CentOS7.4-Origin.qcow2 -f qcow2 /var/lib/libvirt/images/CentOS7.4-Auto-${x}.qcow2;
-			cp /etc/libvirt/qemu/CentOS7.4-Origin /etc/libvirt/qemu/CentOS7.4-Auto-${x}.xml;
+			qemu-img create -b /var/lib/libvirt/images/CentOS7.4-Base.qcow2 -f qcow2 /var/lib/libvirt/images/CentOS7.4-Auto-${x}.qcow2;
+			cp /etc/libvirt/qemu/CentOS7.4-Base /etc/libvirt/qemu/CentOS7.4-Auto-${x}.xml;
 			sed -i -r "s/CentOS7.4-Origin/CentOS7.4-Auto-${x}/" /etc/libvirt/qemu/CentOS7.4-Auto-${x}.xml;
 			virsh define /etc/libvirt/qemu/CentOS7.4-Auto-${x}.xml;
 		done;
@@ -79,9 +79,9 @@ do
 		then
 			virsh undefine CentOS7.4-${x} --remove-all-storage;
 		fi;
-		qemu-img create -b /var/lib/libvirt/images/CentOS7.4-Origin.qcow2 -f qcow2 /var/lib/libvirt/images/CentOS7.4-${x}.qcow2;
-		cp /etc/libvirt/qemu/CentOS7.4-Origin /etc/libvirt/qemu/CentOS7.4-${x}.xml;
-		sed -i -r "s/CentOS7.4-Origin/CentOS7.4-${x}/" /etc/libvirt/qemu/CentOS7.4-${x}.xml;
+		qemu-img create -b /var/lib/libvirt/images/CentOS7.4-Base.qcow2 -f qcow2 /var/lib/libvirt/images/CentOS7.4-${x}.qcow2;
+		cp /etc/libvirt/qemu/CentOS7.4-Base /etc/libvirt/qemu/CentOS7.4-${x}.xml;
+		sed -i -r "s/CentOS7.4-Base/CentOS7.4-${x}/" /etc/libvirt/qemu/CentOS7.4-${x}.xml;
 		virsh define /etc/libvirt/qemu/CentOS7.4-${x}.xml;
 	elif [ ${x} -eq 0 ]
 	then
@@ -106,7 +106,7 @@ do
 				fi;
 				virsh undefine ${x} --remove-all-storage;
 			done;
-			rm -f /etc/libvirt/qemu/CentOS7.4-Origin;
+			rm -f /etc/libvirt/qemu/CentOS7.4-Base;
 			exit;
 		fi;
 	else
